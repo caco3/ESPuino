@@ -10,6 +10,7 @@
 #include "Led.h"
 #include "Log.h"
 #include "Mqtt.h"
+#include "Queues.h"
 #include "System.h"
 #include "Wlan.h"
 
@@ -364,6 +365,31 @@ void Cmd_Action(const uint16_t mod) {
 
 		case CMD_STOP: {
 			AudioPlayer_TrackControlToQueueSender(STOP);
+			break;
+		}
+
+		case CMD_VIRTUAL_RFID_CARD_01: {
+			xQueueSend(gRfidCardQueue, VIRTUAL_RFID_CARD_01, 0);
+			break;
+		}
+
+		case CMD_VIRTUAL_RFID_CARD_02: {
+			xQueueSend(gRfidCardQueue, VIRTUAL_RFID_CARD_02, 0);
+			break;
+		}
+
+		case CMD_VIRTUAL_RFID_CARD_03: {
+			xQueueSend(gRfidCardQueue, VIRTUAL_RFID_CARD_03, 0);
+			break;
+		}
+
+		case CMD_VIRTUAL_RFID_CARD_04: {
+			xQueueSend(gRfidCardQueue, VIRTUAL_RFID_CARD_04, 0);
+			break;
+		}
+
+		case CMD_VIRTUAL_RFID_CARD_05: {
+			xQueueSend(gRfidCardQueue, VIRTUAL_RFID_CARD_05, 0);
 			break;
 		}
 

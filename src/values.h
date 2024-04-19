@@ -68,6 +68,12 @@
 #define CMD_STOP		   182 // Command: stops playback
 #define CMD_RESTARTSYSTEM  183 // Command: restart System
 
+#define CMD_VIRTUAL_RFID_CARD_01 251 // Command: Virtual RFID-Card 900000000001
+#define CMD_VIRTUAL_RFID_CARD_02 252 // Command: Virtual RFID-Card 900000000002
+#define CMD_VIRTUAL_RFID_CARD_03 253 // Command: Virtual RFID-Card 900000000003
+#define CMD_VIRTUAL_RFID_CARD_04 254 // Command: Virtual RFID-Card 900000000004
+#define CMD_VIRTUAL_RFID_CARD_05 255 // Command: Virtual RFID-Card 900000000005
+
 // Repeat-Modes
 #define NO_REPEAT		 0 // No repeat
 #define TRACK			 1 // Repeat current track (infinite loop)
@@ -89,6 +95,13 @@
 #define DE 1
 #define EN 2
 #define FR 3
+
+// Virtual RFID Cards
+#define VIRTUAL_RFID_CARD_01 "900000000001"
+#define VIRTUAL_RFID_CARD_02 "900000000002"
+#define VIRTUAL_RFID_CARD_03 "900000000003"
+#define VIRTUAL_RFID_CARD_04 "900000000004"
+#define VIRTUAL_RFID_CARD_05 "900000000005"
 
 // Debug
 #define PRINT_TASK_STATS 199 // Prints task stats for debugging, needs CONFIG_FREERTOS_USE_TRACE_FACILITY=y and CONFIG_FREERTOS_GENERATE_RUN_TIME_STATS=y in sdkconfig.defaults
