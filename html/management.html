@@ -13,22 +13,22 @@
 	<link rel="preconnect" href="https://cdnjs.cloudflare.com">
 	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 	<link rel="apple-touch-icon" href="/logo">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/jstree.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/23.7.11/i18next.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/i18next-http-backend/2.4.2/i18nextHttpBackend.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/loc-i18next@0.1.6/dist/umd/loc-i18next.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/gh/sourcefrog/natsort@f8a6b0c/natcompare.js"></script>
+	<link rel="stylesheet" href="explorerdownload?path=%2Fhtml%2F/bootstrap.min.css">
+	<link rel="stylesheet" href="explorerdownload?path=%2Fhtml%2F/style.min.css" />
+	<link rel="stylesheet" href="explorerdownload?path=%2Fhtml%2F/all.min.css" />
+	<link rel="stylesheet" href="explorerdownload?path=%2Fhtml%2F/toastr.min.css" />
+	<link rel="stylesheet" href="explorerdownload?path=%2Fhtml%2F/bootstrap-slider.min.css" />
+	<script src="explorerdownload?path=%2Fhtml%2F/jquery.min.js"></script>
+	<script src="explorerdownload?path=%2Fhtml%2F/jquery-ui.min.js"></script>
+	<script src="explorerdownload?path=%2Fhtml%2F/popper.min.js"></script>
+	<script src="explorerdownload?path=%2Fhtml%2F/bootstrap.min.js"></script>
+	<script src="explorerdownload?path=%2Fhtml%2F/jstree.min.js"></script>
+	<script src="explorerdownload?path=%2Fhtml%2F/toastr.min.js"></script>
+	<script src="explorerdownload?path=%2Fhtml%2F/bootstrap-slider.min.js"></script>
+	<script src="explorerdownload?path=%2Fhtml%2F/i18next.min.js"></script>
+	<script src="explorerdownload?path=%2Fhtml%2F/i18nextHttpBackend.min.js"></script>
+	<script src="explorerdownload?path=%2Fhtml%2F/loc-i18next.min.js"></script>
+	<script src="explorerdownload?path=%2Fhtml%2F/natcompare.js"></script>
 	<style type="text/css">
 		.jstree-default .jstree-search {
 			font-style: italic;
@@ -500,7 +500,7 @@
 						<div>
 							<br>
 							<legend id="filesupload" data-i18n="files.upload.title">Files</legend>
-							<form id="explorerUploadForm" method="POST" enctype="multipart/form-data" action="/explorer">
+							<form id="explorerUploadForm" method="POST" enctype="multipart/form-data" action="explorer">
 								<div class="input-group">
 									<span class="form-control" id="uploaded_file_text"></span>&nbsp <span class="input-group-btn">
 										<span class="btn btn-secondary" onclick="let input = $(this).parent().find('input[type=file]')[0]; input.webkitdirectory=false; input.click();" data-i18n="[title]files.files.desc;files.files.title">Files</span>&nbsp <span class="btn btn-secondary" onclick="let input = $(this).parent().find('input[type=file]')[0]; input.webkitdirectory=true; input.click();" data-i18n="[title]files.directory.desc;files.directory.title">Directory</span>&nbsp <span class="btn btn-primary" onclick="$(this).parent().find('input[type=file]').submit();" data-i18n="[title]files.upload.desc;files.upload.title">Upload</span>
@@ -1195,7 +1195,7 @@
 			const startTime = new Date().getTime();
 			let bytesTotal = 0;
 			$.ajax({
-				url: '/explorer?path=' + encodeURIComponent(path),
+				url: 'explorer?path=' + encodeURIComponent(path),
 				type: 'POST',
 				data: data,
 				contentType: false,
@@ -1254,7 +1254,7 @@
 					$("#explorerUploadProgress").text(progressText);
 					document.getElementById('uploaded_file').value = '';
 					document.getElementById('uploaded_file_text').innerHTML = '';
-					getData("http://" + host + "/explorer?path=" + path, function(data) {
+					getData("http://" + host + "explorer?path=" + path, function(data) {
 						/* We now have data! */
 						deleteChildrenNodes(sel);
 						addFileDirectory(sel, data);
@@ -1275,7 +1275,7 @@
 				var ref = $('#explorerTree').jstree(true);
 				var node = ref.get_node(this.id);
 				console.log("call delete request: " + node.data.path);
-				deleteData("http://" + host + "/explorer?path=" + encodeURIComponent(node.data.path));
+				deleteData("http://" + host + "explorer?path=" + encodeURIComponent(node.data.path));
 			});
 		}
 
@@ -1339,7 +1339,7 @@
 		function refreshNode(nodeId) {
 			var ref = $('#explorerTree').jstree(true);
 			var node = ref.get_node(nodeId);
-			getData("http://" + host + "/explorer?path=" + encodeURIComponent(node.data.path), function(data) {
+			getData("http://" + host + "explorer?path=" + encodeURIComponent(node.data.path), function(data) {
 				/* We now have data! */
 				deleteChildrenNodes(nodeId);
 				addFileDirectory(nodeId, data);
@@ -1436,7 +1436,7 @@
 									});
 									if(childNode) {
 										ref.edit(childNode, null, function(childNode, status) {
-											putData("http://" + host + "/explorer?path=" + encodeURIComponent(node.data.path) + "/" + encodeURIComponent(childNode.text));
+											putData("http://" + host + "explorer?path=" + encodeURIComponent(node.data.path) + "/" + encodeURIComponent(childNode.text));
 											refreshNode(nodeId);
 										});
 									}
@@ -1455,7 +1455,7 @@
 										playMode = 11;
 									}
 								}
-								postData("http://" + host + "/exploreraudio?path=" + encodeURIComponent(node.data.path) + "&playmode=" + playMode);
+								postData("http://" + host + "exploreraudio?path=" + encodeURIComponent(node.data.path) + "&playmode=" + playMode);
 							}
 						};
 						/* Refresh */
@@ -1480,7 +1480,7 @@
 								var srcPath = node.data.path;
 								ref.edit(nodeId, null, function(node, status) {
 									node.data.path = node.data.path.substring(0, node.data.path.lastIndexOf("/") + 1) + node.text;
-									patchData("http://" + host + "/explorer?srcpath=" + encodeURIComponent(srcPath) + "&dstpath=" + encodeURIComponent(node.data.path));
+									patchData("http://" + host + "explorer?srcpath=" + encodeURIComponent(srcPath) + "&dstpath=" + encodeURIComponent(node.data.path));
 									refreshNode(ref.get_parent(nodeId));
 								});
 							}
@@ -1490,7 +1490,7 @@
 							items.download = {
 								label: () => i18next.t("files.context.download"),
 								action: function(x) {
-									uri = "http://" + host + "/explorerdownload?path=" + encodeURIComponent(node.data.path);
+									uri = "http://" + host + "explorerdownload?path=" + encodeURIComponent(node.data.path);
 									console.log("download file: " + node.data.path);
 									var anchor = document.createElement('a');
 									anchor.href = uri;
@@ -1508,7 +1508,7 @@
 			if(path.length == 0) {
 				return;
 			}
-			getData("http://" + host + "/explorer?path=/", function(data) {
+			getData("http://" + host + "explorer?path=/", function(data) {
 				/* We now have data! */
 				$('#explorerTree').jstree(true).settings.core.data.children = [];
 				sortData(data);
