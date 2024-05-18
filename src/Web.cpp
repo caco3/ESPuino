@@ -68,6 +68,7 @@ static void explorerHandleFileUpload(AsyncWebServerRequest *request, String file
 static void explorerHandleFileStorageTask(void *parameter);
 static void explorerHandleListRequest(AsyncWebServerRequest *request);
 static void explorerHandleDownloadRequest(AsyncWebServerRequest *request);
+static void uiSupportHandleRequest(AsyncWebServerRequest *request);
 static void explorerHandleDeleteRequest(AsyncWebServerRequest *request);
 static void explorerHandleCreateRequest(AsyncWebServerRequest *request);
 static void explorerHandleRenameRequest(AsyncWebServerRequest *request);
@@ -555,6 +556,9 @@ void webserverStart(void) {
 		wServer.on("/explorer", HTTP_PUT, explorerHandleCreateRequest);
 
 		wServer.on("/explorer", HTTP_PATCH, explorerHandleRenameRequest);
+
+		// TODO extend swagger
+		wServer.on("/ui", HTTP_GET, uiSupportHandleRequest);
 
 		wServer.on("/exploreraudio", HTTP_POST, explorerHandleAudioRequest);
 
@@ -1600,6 +1604,39 @@ void explorerHandleDownloadRequest(AsyncWebServerRequest *request) {
 	String filename = String(param->value().c_str());
 	response->addHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
 	request->send(response);
+}
+
+
+void uiSupportHandleRequest(AsyncWebServerRequest *request) {
+#ifndef NO_SDCARD
+	File file;
+	AsyncWebParameter *param;
+	// check has path param
+	if (!request->hasParam("path")) {
+		Log_Println("UI-SUPPORT: No path variable set", LOGLEVEL_ERROR);
+		request->send(404);
+		return;
+	}
+
+	// check file exists on SD card -> serve it or redirect to online variant
+	param = request->getParam("path");
+	const char *filePath = param->value().c_str();
+	String sdcardPath = String("/zzz_html/") + String(filePath);
+	if (gFSystem.exists(sdcardPath.c_str())) {
+		Log_Printf(LOGLEVEL_INFO, "UI-SUPPORT: Serving %s from SD-Card...", sdcardPath);
+		request->send(gFSystem, sdcardPath, "text/css"); // todo use right file extention
+	//if (gFSystem.exists(filePath)) {
+	//	Log_Printf(LOGLEVEL_INFO, "UI-SUPPORT: Serving %s from SD-Card...", filePath);
+	//	request->send(gFSystem, filePath, "text/css"); // todo use right file extention
+		return;
+	}
+	else
+#endif
+	{
+		Log_Printf(LOGLEVEL_INFO, "UI-SUPPORT: Missing %s on SD-Card, redirecting to online variant...", filePath);
+		request->redirect(String("https://ruinelli.ch/espuino/") + String(filePath)); // TODO use Github URLs
+		return;
+	}
 }
 
 // Handles delete request of a file or directory
